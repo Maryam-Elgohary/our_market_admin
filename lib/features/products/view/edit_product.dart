@@ -4,22 +4,35 @@ import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_field.dart';
 import 'package:our_market_admin/core/functions/build_custom_app_bar.dart';
 import 'package:our_market_admin/core/shared_pref.dart';
+import 'package:our_market_admin/features/products/models/product_model.dart';
 
 class EditProductView extends StatefulWidget {
-  const EditProductView({super.key});
-
+  const EditProductView({super.key, required this.product});
+  final ProductModel product;
   @override
   State<EditProductView> createState() => _EditProductViewState();
 }
 
 class _EditProductViewState extends State<EditProductView> {
-  String selectedValue = "Collections";
-  String sale = "10";
+  String? selectedValue = "Collections";
+  String? sale;
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _newPriceController = TextEditingController();
   final TextEditingController _oldPriceController = TextEditingController();
   final TextEditingController _productDescriptionController =
       TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.product.category;
+    sale = widget.product.sale.toString();
+    _productNameController.text = widget.product.productName ?? "";
+    _newPriceController.text = widget.product.price ?? "";
+    _oldPriceController.text = widget.product.oldPrice ?? "";
+    _productDescriptionController.text = widget.product.description ?? "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +45,7 @@ class _EditProductViewState extends State<EditProductView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 DropdownMenu(
-                  initialSelection: selectedValue,
+                  initialSelection: widget.product.category,
                   onSelected: (String? value) {
                     setState(() {
                       selectedValue = value ?? "Collections";
@@ -40,13 +53,13 @@ class _EditProductViewState extends State<EditProductView> {
                     });
                   },
                   dropdownMenuEntries: const [
-                    DropdownMenuEntry(value: "Sports", label: "Sports"),
+                    DropdownMenuEntry(value: "sports", label: "Sports"),
                     DropdownMenuEntry(
-                        value: "Electronics", label: "Electronics"),
+                        value: "electronics", label: "Electronics"),
                     DropdownMenuEntry(
-                        value: "Collections", label: "Collections"),
-                    DropdownMenuEntry(value: "Books", label: "Books"),
-                    DropdownMenuEntry(value: "Bikes", label: "Bikes")
+                        value: "collections", label: "Collections"),
+                    DropdownMenuEntry(value: "books", label: "Books"),
+                    DropdownMenuEntry(value: "bikes", label: "Bikes")
                   ],
                 ),
                 SizedBox(
@@ -63,8 +76,8 @@ class _EditProductViewState extends State<EditProductView> {
                 ),
                 Column(
                   children: [
-                    const CacheImage(
-                        url:
+                    CacheImage(
+                        url: widget.product.imageUrl ??
                             "https://img.freepik.com/free-photo/sale-with-special-discount-vr-glasses_23-2150040380.jpg?t=st=1739116086~exp=1739119686~hmac=50674df6ab1e31c30ae312456d3292a4b517ea9c9d913f8e4d1c0728052f310f&w=900",
                         height: 200,
                         width: 300),
