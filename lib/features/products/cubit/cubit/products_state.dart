@@ -14,3 +14,13 @@ final class GetProductsError extends ProductsState {
 
   GetProductsError(this.message);
 }
+
+final class UploadImageLoading extends ProductsState {}
+
+final class UploadImageSuccess extends ProductsState {}
+
+final class UploadImageError extends ProductsState {
+  final String message;
+
+  UploadImageError(this.message);
+}

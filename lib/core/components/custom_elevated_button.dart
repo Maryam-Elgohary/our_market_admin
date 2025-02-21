@@ -12,7 +12,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
