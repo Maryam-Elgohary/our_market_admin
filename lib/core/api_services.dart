@@ -1,13 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:our_market_admin/core/functions/sensitive_data.dart';
 
-// Define authKey variable
-const String authKey = 'your_auth_key_here';
-
 class ApiServices {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "https://itjstiahcigzhbrwggfz.supabase.co/rest/v1/",
+      baseUrl: "https://adfznwtttqzsiuzjvyun.supabase.co/rest/v1/",
       headers: {
         "apiKey": anonKey,
       },
@@ -30,9 +27,9 @@ class ApiServices {
     return await _dio.delete(path);
   }
 
-  Dio _dioAuth = Dio(
+  final Dio _dioAuth = Dio(
     BaseOptions(
-      baseUrl: "https://itjstiahcigzhbrwggfz.supabase.co/auth/v1/",
+      baseUrl: "https://adfznwtttqzsiuzjvyun.supabase.co/auth/v1/",
       headers: {
         "apiKey": anonKey,
       },
@@ -42,5 +39,11 @@ class ApiServices {
   Future<Response> createAnAccount(
       String endpoint, Map<String, dynamic> data) async {
     return await _dioAuth.post(endpoint, data: data);
+  }
+
+  Future<Response> login(String endpoint, Map<String, dynamic> data) async {
+    return await _dioAuth.post(endpoint, data: data, queryParameters: {
+      "grant_type": "password",
+    });
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
@@ -18,10 +16,10 @@ class AddAdminCubit extends Cubit<AddAdminState> {
       if (response.statusCode == 200) {
         emit(AddAdminSuccess());
       } else {
-        emit(AddAdminError(msgError: response.data['msg']));
+        emit(AddAdminError(msgError: response.data["msg"]));
       }
     } catch (e) {
-      log(e.toString());
+      print(e.toString());
       emit(AddAdminError(msgError: "Something went wrong, please try again!"));
     }
   }
