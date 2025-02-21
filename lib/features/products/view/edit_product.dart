@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:our_market_admin/core/components/cache_image.dart';
 import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_field.dart';
@@ -15,7 +16,7 @@ class EditProductView extends StatefulWidget {
 
 class _EditProductViewState extends State<EditProductView> {
   String? selectedValue = "Collections";
-  String? sale;
+  String? discount;
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _newPriceController = TextEditingController();
   final TextEditingController _oldPriceController = TextEditingController();
@@ -26,7 +27,7 @@ class _EditProductViewState extends State<EditProductView> {
   void initState() {
     super.initState();
     selectedValue = widget.product.category;
-    sale = widget.product.sale.toString();
+    discount = widget.product.sale.toString();
     _productNameController.text = widget.product.productName ?? "";
     _newPriceController.text = widget.product.price ?? "";
     _oldPriceController.text = widget.product.oldPrice ?? "";
@@ -67,11 +68,11 @@ class _EditProductViewState extends State<EditProductView> {
                 ),
                 Column(
                   children: [
-                    Text("Sale"),
+                    Text("Discount"),
                     SizedBox(
                       height: 10,
                     ),
-                    Text("$sale %")
+                    Text("$discount %")
                   ],
                 ),
                 Column(
@@ -111,15 +112,30 @@ class _EditProductViewState extends State<EditProductView> {
               height: 10,
             ),
             CustomField(
-              labelText: "New Price",
-              controller: _newPriceController,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(/d+)?\.?\d{0,2}')),
+              ],
+              labelText: "Old Price (Before discount)",
+              controller: _oldPriceController,
             ),
             const SizedBox(
               height: 10,
             ),
             CustomField(
-              labelText: "Old Price",
-              controller: _oldPriceController,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+              ],
+              labelText: "New Price (After discount)",
+              controller: _newPriceController,
+              onChanged: (String val) {
+                double x = (double.parse(_oldPriceController.text) -
+                        double.parse(val)) /
+                    double.parse(_oldPriceController.text) *
+                    100;
+                setState(() {
+                  discount = x.round().toString();
+                });
+              },
             ),
             const SizedBox(
               height: 10,
@@ -158,3 +174,6 @@ class _EditProductViewState extends State<EditProductView> {
     super.dispose();
   }
 }
+
+
+//sale = 
