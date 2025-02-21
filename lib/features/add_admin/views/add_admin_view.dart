@@ -14,38 +14,38 @@ class _AddAdminViewState extends State<AddAdminView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCustomAppBar(context, "Add Admin"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CustomField(
-              labelText: "Name",
-              controller: _nameController,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomField(
-              labelText: "Email",
-              controller: _emailController,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomField(
-              labelText: "Password",
-              controller: _passwordController,
-              isPassword: true,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomElevatedButton(child: Text("Add"), onPressed: () {})
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              CustomField(
+                labelText: "Email",
+                controller: _emailController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomField(
+                labelText: "Password",
+                controller: _passwordController,
+                isPassword: true,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomElevatedButton(child: const Text("Add"), onPressed: () {})
+            ],
+          ),
         ),
       ),
     );
