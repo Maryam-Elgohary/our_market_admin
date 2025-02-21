@@ -4,6 +4,7 @@ import 'package:our_market_admin/core/components/cache_image.dart';
 import 'package:our_market_admin/core/components/custom_elevated_button.dart';
 import 'package:our_market_admin/core/components/custom_text_field.dart';
 import 'package:our_market_admin/core/functions/build_custom_app_bar.dart';
+import 'package:our_market_admin/core/functions/pick_image.dart';
 import 'package:our_market_admin/core/shared_pref.dart';
 import 'package:our_market_admin/features/products/models/product_model.dart';
 
@@ -34,6 +35,7 @@ class _EditProductViewState extends State<EditProductView> {
     _productDescriptionController.text = widget.product.description ?? "";
   }
 
+  Uint8List? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,18 +79,34 @@ class _EditProductViewState extends State<EditProductView> {
                 ),
                 Column(
                   children: [
-                    CacheImage(
-                        url: widget.product.imageUrl ??
-                            "https://img.freepik.com/free-photo/sale-with-special-discount-vr-glasses_23-2150040380.jpg?t=st=1739116086~exp=1739119686~hmac=50674df6ab1e31c30ae312456d3292a4b517ea9c9d913f8e4d1c0728052f310f&w=900",
-                        height: 200,
-                        width: 300),
+                    _selectedImage != null
+                        ? Image.memory(
+                            _selectedImage!,
+                            width: 300,
+                            height: 200,
+                          )
+                        : CacheImage(
+                            url: widget.product.imageUrl ??
+                                "https://img.freepik.com/free-photo/sale-with-special-discount-vr-glasses_23-2150040380.jpg?t=st=1739116086~exp=1739119686~hmac=50674df6ab1e31c30ae312456d3292a4b517ea9c9d913f8e4d1c0728052f310f&w=900",
+                            height: 200,
+                            width: 300),
                     const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
                         CustomElevatedButton(
-                            child: const Icon(Icons.image), onPressed: () {}),
+                            child: const Icon(Icons.image),
+                            onPressed: () async {
+                              await pickImage().then((value) {
+                                if (value != null) {
+                                  setState(() {
+                                    Uint8List? bytes = value.files.first.bytes;
+                                    _selectedImage = bytes;
+                                  });
+                                }
+                              });
+                            }),
                         const SizedBox(
                           width: 10,
                         ),
