@@ -68,4 +68,20 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(UploadImageError(e.toString()));
     }
   }
+
+  Future<void> editProduct(
+      {required Map<String, dynamic> data, required String productId}) async {
+    emit(EditProductLoading());
+    try {
+      String? token = await SharedPref.getToken();
+      Response response = await _apiServices.patchData(
+          "products_table?product_id=eq.$productId", data, token);
+      if (response.statusCode == 204) {
+        emit(EditProductSuccess());
+      }
+    } catch (e) {
+      log(e.toString());
+      emit(EditProductError(e.toString()));
+    }
+  }
 }

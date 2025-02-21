@@ -24,3 +24,13 @@ final class UploadImageError extends ProductsState {
 
   UploadImageError(this.message);
 }
+
+final class EditProductLoading extends ProductsState {}
+
+final class EditProductSuccess extends ProductsState {}
+
+final class EditProductError extends ProductsState {
+  final String message;
+
+  EditProductError(this.message);
+}
