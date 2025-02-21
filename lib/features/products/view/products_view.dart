@@ -17,6 +17,8 @@ class ProductsView extends StatelessWidget {
           // TODO: implement listener
         },
         builder: (context, state) {
+          ProductsCubit cubit = context.read<ProductsCubit>();
+
           return Scaffold(
             appBar: buildCustomAppBar(context, "Products"),
             body: state is GetProductsLoading
@@ -24,9 +26,11 @@ class ProductsView extends StatelessWidget {
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: cubit.products.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return CustomProductCard();
+                        return CustomProductCard(
+                          product: cubit.products[index],
+                        );
                       },
                     ),
                   ),
