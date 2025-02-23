@@ -44,3 +44,13 @@ final class DeleteProductError extends ProductsState {
 
   DeleteProductError(this.message);
 }
+
+final class AddProductLoading extends ProductsState {}
+
+final class AddProductSuccess extends ProductsState {}
+
+final class AddProductError extends ProductsState {
+  final String message;
+
+  AddProductError(this.message);
+}
