@@ -222,10 +222,10 @@ class _EditProductViewState extends State<EditProductView> {
 
   DropdownMenu<String> _buildCustomDropMenu() {
     return DropdownMenu(
-      initialSelection: widget.product.category,
+      initialSelection: selectedValue,
       onSelected: (String? value) {
         setState(() {
-          selectedValue = value ?? "Collections";
+          selectedValue = value ?? "collections";
           print(selectedValue);
         });
       },
